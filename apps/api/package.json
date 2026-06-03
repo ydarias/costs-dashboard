@@ -1,0 +1,26 @@
+{
+  "name": "@costs/api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@costs/fetchers": "*",
+    "@costs/repositories": "*",
+    "express": "5.2.1"
+  },
+  "devDependencies": {
+    "@costs/typescript-config": "*",
+    "@costs/vitest-config": "*",
+    "@types/express": "5.0.6",
+    "@types/node": "25.9.1",
+    "tsx": "4.22.4",
+    "typescript": "6.0.3",
+    "vitest": "4.1.8"
+  }
+}
