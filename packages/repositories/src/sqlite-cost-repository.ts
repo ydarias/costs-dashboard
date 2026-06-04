@@ -25,8 +25,15 @@ export class SqliteCostRepository implements CostRepository {
         entries.map((e) => {
           const entity = new CostEntryEntity()
           entity.accountId = e.accountId
+          entity.resourceInstanceId = e.resourceInstanceId
+          entity.resourceInstanceName = e.resourceInstanceName ?? null
           entity.resourceId = e.resourceId
-          entity.resourceName = e.resourceName
+          entity.resourceName = e.resourceName ?? null
+          entity.planId = e.planId
+          entity.planName = e.planName ?? null
+          entity.region = e.region ?? null
+          entity.resourceGroupId = e.resourceGroupId ?? null
+          entity.resourceGroupName = e.resourceGroupName ?? null
           entity.cost = e.cost
           entity.currency = e.currency
           entity.month = e.month
@@ -50,8 +57,15 @@ export class SqliteCostRepository implements CostRepository {
 function toCostEntry(entity: CostEntryEntity): CostEntry {
   return {
     accountId: entity.accountId,
+    resourceInstanceId: entity.resourceInstanceId,
+    resourceInstanceName: entity.resourceInstanceName ?? undefined,
     resourceId: entity.resourceId,
-    resourceName: entity.resourceName,
+    resourceName: entity.resourceName ?? undefined,
+    planId: entity.planId,
+    planName: entity.planName ?? undefined,
+    region: entity.region ?? undefined,
+    resourceGroupId: entity.resourceGroupId ?? undefined,
+    resourceGroupName: entity.resourceGroupName ?? undefined,
     cost: entity.cost,
     currency: 'USD',
     month: entity.month,

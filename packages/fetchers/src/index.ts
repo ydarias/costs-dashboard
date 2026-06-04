@@ -5,21 +5,21 @@ import UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js'
 import { IamAuthenticator } from 'ibm-cloud-sdk-core'
 import type { CostEntry } from './types/cost-entry.js'
 import type { FetchCostsOptions } from './types/fetch-costs-options.js'
-import { mapResourceToCostEntry } from './mappers/usage-response-to-cost-entries.js'
+import { mapInstanceUsageToCostEntry } from './mappers/usage-response-to-cost-entries.js'
 
 export async function fetchCosts(options: FetchCostsOptions): Promise<CostEntry[]> {
   const client = new UsageReportsV4({
     authenticator: new IamAuthenticator({ apikey: options.apiKey }),
   })
 
-  const response = await client.getAccountUsage({
+  const pager = new UsageReportsV4.GetResourceUsageAccountPager(client, {
     accountId: options.accountId,
     billingmonth: options.month,
+    names: true,
+    limit: 200,
   })
 
-  const { resources, currency_code } = response.result
+  const instances = await pager.getAll()
 
-  return resources.map((resource) =>
-    mapResourceToCostEntry(resource, options.accountId, options.month, currency_code),
-  )
+  return instances.map(mapInstanceUsageToCostEntry)
 }

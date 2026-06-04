@@ -7,8 +7,10 @@ import type { CostEntry } from '@costs/fetchers'
 
 const entry = (overrides: Partial<CostEntry> = {}): CostEntry => ({
   accountId: 'acc-1',
+  resourceInstanceId: 'crn:v1::cos-instance',
   resourceId: 'cos',
   resourceName: 'Cloud Object Storage',
+  planId: 'standard',
   cost: 10.0,
   currency: 'USD',
   month: '2026-01',

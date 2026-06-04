@@ -8,8 +8,10 @@ afterEach(() => {
 
 const entry = (overrides: Partial<CostEntry> = {}): CostEntry => ({
   accountId: 'acc-1',
+  resourceInstanceId: 'crn:v1::cos-instance',
   resourceId: 'cos',
   resourceName: 'Cloud Object Storage',
+  planId: 'standard',
   cost: 12.34,
   currency: 'USD',
   month: '2026-01',
