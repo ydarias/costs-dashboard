@@ -149,4 +149,6 @@ vite.config.ts.timestamp-*
 .idea/
 
 # Claude related
+.claude/
 spec.md
+spec-assets/

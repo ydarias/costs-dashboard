@@ -1,4 +1,6 @@
+import 'reflect-metadata'
 import { Command } from 'commander'
+import { fetchCommand } from './commands/fetch.js'
 
 const program = new Command()
 
@@ -10,10 +12,8 @@ program
 program
   .command('fetch')
   .description('Fetch costs from IBM Cloud')
-  .requiredOption('--account-id <id>', 'IBM Cloud account ID')
-  .requiredOption('--month <month>', 'Month to fetch (YYYY-MM)')
-  .action((_options) => {
-    console.log('fetch command not yet implemented')
-  })
+  .requiredOption('--from <YYYY-MM>', 'Start month (inclusive)')
+  .option('--to <YYYY-MM>', 'End month (inclusive, defaults to --from)')
+  .action(fetchCommand)
 
 program.parse()
