@@ -14,6 +14,7 @@ program
   .description('Fetch costs from IBM Cloud')
   .requiredOption('--from <YYYY-MM>', 'Start month (inclusive)')
   .option('--to <YYYY-MM>', 'End month (inclusive, defaults to --from)')
+  .option('--config <path>', 'Path to JSON config file', './costs-config.json')
   .action(fetchCommand)
 
 program.parse()

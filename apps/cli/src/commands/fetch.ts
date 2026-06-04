@@ -1,7 +1,7 @@
 import { fetchCosts } from '@costs/fetchers'
 import { SqliteCostRepository, createDataSource } from '@costs/repositories'
 import { expandMonthRange } from '../utils/expand-month-range.js'
-import { validateEnv } from '../utils/validate-env.js'
+import { readConfig } from '../utils/read-config.js'
 import { renderSummaryTable } from '../renderers/summary-table.js'
 
 const MONTH_PATTERN = /^\d{4}-\d{2}$/
@@ -9,6 +9,7 @@ const MONTH_PATTERN = /^\d{4}-\d{2}$/
 interface FetchOptions {
   from: string
   to?: string
+  config: string
 }
 
 export async function fetchCommand(options: FetchOptions): Promise<void> {
@@ -32,16 +33,18 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
     process.exit(1)
   }
 
-  const { apiKey, accountIds } = validateEnv()
+  const config = readConfig(options.config)
 
   const dbPath = process.env['DB_PATH'] ?? './costs.db'
   const dataSource = createDataSource(dbPath)
   await dataSource.initialize()
 
-  const pairs = accountIds.flatMap((accountId) => months.map((month) => ({ accountId, month })))
+  const pairs = config.accounts.flatMap(({ id: accountId, apiKey }) =>
+    months.map((month) => ({ accountId, month, apiKey })),
+  )
 
   const results = await Promise.allSettled(
-    pairs.map(({ accountId, month }) => fetchCosts({ accountId, month, apiKey })),
+    pairs.map(({ accountId, month, apiKey }) => fetchCosts({ accountId, month, apiKey })),
   )
 
   const successEntries = results
@@ -59,7 +62,7 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
 
   await dataSource.destroy()
 
-  for (const accountId of accountIds) {
+  for (const { id: accountId } of config.accounts) {
     renderSummaryTable(successEntries, accountId)
   }
 
