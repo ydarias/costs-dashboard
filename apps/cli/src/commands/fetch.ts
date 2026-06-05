@@ -1,18 +1,12 @@
-import { fetchCosts } from '@costs/fetchers'
-import { SqliteCostRepository, createDataSource } from '@costs/repositories'
-import { expandMonthRange } from '../utils/expand-month-range.js'
-import { readConfig } from '../utils/read-config.js'
-import { renderSummaryTable } from '../renderers/summary-table.js'
+import {fetchCosts} from '@costs/fetchers'
+import {createDataSource, SqliteCostRepository} from '@costs/repositories'
+import {expandMonthRange} from '../utils/expand-month-range.js'
+import {readConfig} from '../utils/read-config.js'
+import {renderSummaryTable} from '../renderers/summary-table.js'
+import {FetchOptions} from "../types/fetch-options";
+import {MONTH_PATTERN} from "../types/month-pattern";
 
-const MONTH_PATTERN = /^\d{4}-\d{2}$/
-
-interface FetchOptions {
-  from: string
-  to?: string
-  config: string
-}
-
-export async function fetchCommand(options: FetchOptions): Promise<void> {
+function parseMonths(options: FetchOptions) {
   if (!MONTH_PATTERN.test(options.from)) {
     process.stderr.write(`Error: --from must be in YYYY-MM format, got "${options.from}"\n`)
     process.exit(1)
@@ -32,6 +26,11 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
     process.stderr.write(`Error: ${(err as Error).message}\n`)
     process.exit(1)
   }
+  return months;
+}
+
+export async function fetchCommand(options: FetchOptions): Promise<void> {
+  const months = parseMonths(options);
 
   const config = readConfig(options.config)
 
