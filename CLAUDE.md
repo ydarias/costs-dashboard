@@ -18,6 +18,7 @@ The project is a monorepo using Turborepo standards.
 │   └── ui
 └── packages
     ├── domain
+    ├── eslint-config
     ├── fetchers
     ├── repositories
     ├── typescript-config
@@ -38,7 +39,7 @@ The project is a monorepo using Turborepo standards.
 
 ### Conventions
 
-- Object Oriented Programming is preferred over other paradigms.
+- Object-Oriented Programming is preferred over other paradigms.
 
 ## Invocation chain
 
