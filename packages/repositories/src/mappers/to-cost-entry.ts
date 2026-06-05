@@ -1,5 +1,6 @@
-import {CostEntryEntity} from "../entities/cost-entry-entity";
 import type {CostEntry} from "@costs/domain";
+
+import type {CostEntryEntity} from "../entities/cost-entry-entity";
 
 export function toCostEntry(entity: CostEntryEntity): CostEntry {
     return {
@@ -16,5 +17,5 @@ export function toCostEntry(entity: CostEntryEntity): CostEntry {
         cost: entity.cost,
         currency: 'USD',
         month: entity.month,
-    }
+    };
 }

@@ -10,6 +10,7 @@
     "dev": "tsx watch src/index.ts",
     "type-check": "tsc --noEmit",
     "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "vitest run"
   },
   "dependencies": {

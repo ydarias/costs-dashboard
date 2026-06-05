@@ -1,1 +1,1 @@
-export type { CostEntry } from './types/cost-entry.js'
+export type { CostEntry } from './types/cost-entry.js';

@@ -1,4 +1,4 @@
-import {CostEntry} from "@costs/domain";
+import type {CostEntry} from "@costs/domain";
 
 export interface CostRepository {
     save(entries: CostEntry[]): Promise<void>

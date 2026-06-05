@@ -1,46 +1,46 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity('cost_entry')
 export class CostEntryEntity {
   @PrimaryGeneratedColumn('uuid')
-  id!: string
+  id!: string;
 
   @Column()
-  accountId!: string
+  accountId!: string;
 
   @Column()
-  resourceInstanceId!: string
+  resourceInstanceId!: string;
 
   @Column({ nullable: true, type: 'text' })
-  resourceInstanceName!: string | null
+  resourceInstanceName!: string | null;
 
   @Column()
-  resourceId!: string
+  resourceId!: string;
 
   @Column({ nullable: true, type: 'text' })
-  resourceName!: string | null
+  resourceName!: string | null;
 
   @Column()
-  planId!: string
+  planId!: string;
 
   @Column({ nullable: true, type: 'text' })
-  planName!: string | null
+  planName!: string | null;
 
   @Column({ nullable: true, type: 'text' })
-  region!: string | null
+  region!: string | null;
 
   @Column({ nullable: true, type: 'text' })
-  resourceGroupId!: string | null
+  resourceGroupId!: string | null;
 
   @Column({ nullable: true, type: 'text' })
-  resourceGroupName!: string | null
+  resourceGroupName!: string | null;
 
   @Column('float')
-  cost!: number
+  cost!: number;
 
   @Column()
-  currency!: string
+  currency!: string;
 
   @Column()
-  month!: string
+  month!: string;
 }
