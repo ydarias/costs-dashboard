@@ -1,5 +1,5 @@
 import type UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js'
-import type { CostEntry } from '../types/cost-entry.js'
+import type { CostEntry } from '@costs/domain'
 
 export function mapInstanceUsageToCostEntry(instance: UsageReportsV4.InstanceUsage): CostEntry {
   if (instance.currency_code !== 'USD') {

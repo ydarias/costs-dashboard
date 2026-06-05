@@ -17,6 +17,7 @@ vi.mock('@ibm-cloud/platform-services/usage-reports/v4.js', () => {
   }
 })
 
+// TODO not having a Client dependency forces to know the real implementation to mock things
 vi.mock('ibm-cloud-sdk-core', () => ({
   IamAuthenticator: vi.fn(),
 }))

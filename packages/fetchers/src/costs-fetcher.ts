@@ -1,6 +1,6 @@
 import UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js'
 import { IamAuthenticator } from 'ibm-cloud-sdk-core'
-import type { CostEntry } from './types/cost-entry.js'
+import type { CostEntry } from '@costs/domain'
 import type { FetchCostsOptions } from './types/fetch-costs-options.js'
 import { mapInstanceUsageToCostEntry } from './mappers/usage-response-to-cost-entries.js'
 
