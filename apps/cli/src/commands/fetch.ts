@@ -1,4 +1,4 @@
-import {fetchCosts} from '@costs/fetchers'
+import {CostsFetcher, type CostEntry} from '@costs/fetchers'
 import {createDataSource, SqliteCostRepository} from '@costs/repositories'
 import {expandMonthRange} from '../utils/expand-month-range.js'
 import {readConfig} from '../utils/read-config.js'
@@ -38,16 +38,18 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
   const dataSource = createDataSource(dbPath)
   await dataSource.initialize()
 
+  const fetcher = new CostsFetcher()
+
   const pairs = config.accounts.flatMap(({ id: accountId, apiKey }) =>
     months.map((month) => ({ accountId, month, apiKey })),
   )
 
   const results = await Promise.allSettled(
-    pairs.map(({ accountId, month, apiKey }) => fetchCosts({ accountId, month, apiKey })),
+    pairs.map(({ accountId, month, apiKey }) => fetcher.fetch({ accountId, month, apiKey })),
   )
 
   const successEntries = results
-    .filter((r): r is PromiseFulfilledResult<Awaited<ReturnType<typeof fetchCosts>>> => r.status === 'fulfilled')
+    .filter((r): r is PromiseFulfilledResult<CostEntry[]> => r.status === 'fulfilled')
     .flatMap((r) => r.value)
 
   const failures = results
