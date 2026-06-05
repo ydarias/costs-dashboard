@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { CostsFetcher } from './index.js'
+import { CostsFetcher } from './costs-fetcher.js'
 import type UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js'
 
 const mockGetAll = vi.fn()
