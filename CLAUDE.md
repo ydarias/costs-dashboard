@@ -17,6 +17,7 @@ The project is a monorepo using Turborepo standards.
 │   ├── cli
 │   └── ui
 └── packages
+    ├── domain
     ├── fetchers
     ├── repositories
     ├── typescript-config
@@ -30,6 +31,7 @@ The project is a monorepo using Turborepo standards.
 - UI contains all the code for the React app to show reports to the user.
 
 ### Packages
+- Domain contains the domain definition, as per DDD.
 - Fetchers contains all the logic to fetch data from the IBM Cloud API.
 - Repositories contain all the logic to persist and read data from the persistent storage.
 - Use-cases contain all the business logic.
@@ -49,4 +51,7 @@ flowchart TD
     B --> F[Repositories]
     F --> G((Persistent storage))
     E --> H((IBM Cloud))
+    B --> I[Domain]
+    E --> I
+    F --> I
 ```
