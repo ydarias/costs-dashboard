@@ -1,5 +1,5 @@
 import type { DataSource, Repository } from 'typeorm'
-import type { CostEntry } from '@costs/fetchers'
+import type { CostEntry } from '@costs/domain'
 import type { CostRepository } from './index.js'
 import { CostEntryEntity } from './entities/cost-entry-entity.js'
 

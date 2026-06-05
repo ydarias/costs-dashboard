@@ -1,4 +1,4 @@
-import type { CostEntry } from '@costs/fetchers'
+import type { CostEntry } from '@costs/domain'
 
 export type { CostEntry }
 
