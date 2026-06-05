@@ -13,6 +13,7 @@
   "scripts": {
     "build": "tsc",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src",
     "test": "vitest run"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "typeorm": "^1.0.0"
   },
   "devDependencies": {
+    "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "@costs/vitest-config": "*",
     "@types/better-sqlite3": "^7.6.13",

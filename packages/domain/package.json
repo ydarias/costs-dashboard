@@ -12,9 +12,11 @@
   },
   "scripts": {
     "build": "tsc",
+    "lint": "eslint src",
     "type-check": "tsc --noEmit"
   },
   "devDependencies": {
+    "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "typescript": "6.0.3"
   }
