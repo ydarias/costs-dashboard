@@ -1,8 +1,11 @@
-import type { DataSource, Repository } from 'typeorm'
-import type { CostEntry } from '@costs/domain'
-import type { CostRepository } from './index.js'
-import { CostEntryEntity } from './entities/cost-entry-entity.js'
+import type {DataSource, Repository} from 'typeorm'
+import type {CostEntry} from '@costs/domain'
+import {CostEntryEntity} from './entities/cost-entry-entity.js'
+import {CostRepository} from "./cost-repository.js";
+import {toCostEntry} from "./mappers/to-cost-entry";
+import {toCostEntryEntity} from "./mappers/to-cost-entry-entity";
 
+// TODO probably is totally fine as DB repository for other engines
 export class SqliteCostRepository implements CostRepository {
   private readonly repo: Repository<CostEntryEntity>
 
@@ -22,23 +25,7 @@ export class SqliteCostRepository implements CostRepository {
       }
       await manager.save(
         CostEntryEntity,
-        entries.map((e) => {
-          const entity = new CostEntryEntity()
-          entity.accountId = e.accountId
-          entity.resourceInstanceId = e.resourceInstanceId
-          entity.resourceInstanceName = e.resourceInstanceName ?? null
-          entity.resourceId = e.resourceId
-          entity.resourceName = e.resourceName ?? null
-          entity.planId = e.planId
-          entity.planName = e.planName ?? null
-          entity.region = e.region ?? null
-          entity.resourceGroupId = e.resourceGroupId ?? null
-          entity.resourceGroupName = e.resourceGroupName ?? null
-          entity.cost = e.cost
-          entity.currency = e.currency
-          entity.month = e.month
-          return entity
-        }),
+        entries.map(toCostEntryEntity),
       )
     })
   }
@@ -54,20 +41,3 @@ export class SqliteCostRepository implements CostRepository {
   }
 }
 
-function toCostEntry(entity: CostEntryEntity): CostEntry {
-  return {
-    accountId: entity.accountId,
-    resourceInstanceId: entity.resourceInstanceId,
-    resourceInstanceName: entity.resourceInstanceName ?? undefined,
-    resourceId: entity.resourceId,
-    resourceName: entity.resourceName ?? undefined,
-    planId: entity.planId,
-    planName: entity.planName ?? undefined,
-    region: entity.region ?? undefined,
-    resourceGroupId: entity.resourceGroupId ?? undefined,
-    resourceGroupName: entity.resourceGroupName ?? undefined,
-    cost: entity.cost,
-    currency: 'USD',
-    month: entity.month,
-  }
-}

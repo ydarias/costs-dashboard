@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { createDataSource } from './data-source.js'
+import { createDataSource } from './data-source-factory'
 import { SqliteCostRepository } from './sqlite-cost-repository.js'
 import type { DataSource } from 'typeorm'
 import type { CostEntry } from '@costs/fetchers'
