@@ -1,7 +1,7 @@
 import type { ResourceCostEntry } from '@costs/billing';
 import Table from 'cli-table3';
 
-export function renderSummaryTable(entries: ResourceCostEntry[], accountId: string): void {
+export function renderSummaryTable(entries: ResourceCostEntry[], accountId: string, accountName: string): void {
   const table = new Table({
     head: ['Resource Name', 'Month', 'Cost USD'],
     colAligns: ['left', 'left', 'right'],
@@ -15,7 +15,7 @@ export function renderSummaryTable(entries: ResourceCostEntry[], accountId: stri
     total += entry.cost;
   }
 
-  console.log(`\nAccount: ${accountId}`);
+  console.log(`\nAccount: ${accountName} (${accountId})`);
   console.log(table.toString());
   console.log(`Total: $${total.toFixed(2)}`);
 }
