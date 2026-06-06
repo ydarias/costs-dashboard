@@ -1,6 +1,6 @@
 import {
   createDataSource,
-  IbmCloudClient,
+  IbmCloudCostsFetcher,
   CostsRepository,
   CostsService,
   type ResourceCostEntry,
@@ -44,7 +44,7 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
   const dataSource = createDataSource(dbPath);
   await dataSource.initialize();
 
-  const fetcher = new IbmCloudClient();
+  const fetcher = new IbmCloudCostsFetcher();
   const store = new CostsRepository(dataSource);
   const costsService = new CostsService(fetcher, store);
 

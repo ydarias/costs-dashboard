@@ -6,7 +6,7 @@ import type { ToFetchCosts } from '../../ports/index.js';
 
 import { mapInstanceUsageToCostEntry } from './usage-response-to-cost-entry.js';
 
-export class IbmCloudClient implements ToFetchCosts {
+export class IbmCloudCostsFetcher implements ToFetchCosts {
   async fetch(options: FetchCostsOptions): Promise<CostEntry[]> {
     const client = new UsageReportsV4({
       authenticator: new IamAuthenticator({ apikey: options.apiKey }),

@@ -1,7 +1,7 @@
 import type UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-import { IbmCloudClient } from './ibm-cloud-client.js';
+import { IbmCloudCostsFetcher } from './ibm-cloud-costs-fetcher';
 
 const mockGetAll = vi.fn();
 
@@ -35,11 +35,11 @@ const baseInstance: UsageReportsV4.InstanceUsage = {
 };
 
 describe('IbmCloudClient', () => {
-  let client: IbmCloudClient;
+  let client: IbmCloudCostsFetcher;
 
   beforeEach(() => {
     vi.clearAllMocks();
-    client = new IbmCloudClient();
+    client = new IbmCloudCostsFetcher();
   });
 
   it('creates the pager with correct params', async () => {
