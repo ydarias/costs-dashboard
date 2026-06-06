@@ -1,7 +1,7 @@
 import type UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js';
 import { describe, expect, it } from 'vitest';
 
-import { mapInstanceUsageToCostEntry } from './usage-response-to-cost-entry.js';
+import { toCostEntry } from './to-cost-entry.js';
 
 const baseInstance: UsageReportsV4.InstanceUsage = {
   account_id: 'acc-1',
@@ -26,7 +26,7 @@ const baseInstance: UsageReportsV4.InstanceUsage = {
 
 describe('mapInstanceUsageToCostEntry', () => {
   it('maps all fields from an InstanceUsage to a CostEntry', () => {
-    const entry = mapInstanceUsageToCostEntry(baseInstance);
+    const entry = toCostEntry(baseInstance);
 
     expect(entry).toEqual({
       accountId: 'acc-1',
@@ -54,7 +54,7 @@ describe('mapInstanceUsageToCostEntry', () => {
       ],
     };
 
-    expect(mapInstanceUsageToCostEntry(instance).cost).toBe(5.0);
+    expect(toCostEntry(instance).cost).toBe(5.0);
   });
 
   it('returns cost of 0 when all metrics are non-chargeable', () => {
@@ -63,11 +63,11 @@ describe('mapInstanceUsageToCostEntry', () => {
       usage: [{ metric: 'FREE', cost: 99.0, rated_cost: 99.0, quantity: 1, non_chargeable: true, discounts: [] }],
     };
 
-    expect(mapInstanceUsageToCostEntry(instance).cost).toBe(0);
+    expect(toCostEntry(instance).cost).toBe(0);
   });
 
   it('throws when currency is not USD', () => {
-    expect(() => mapInstanceUsageToCostEntry({ ...baseInstance, currency_code: 'EUR' })).toThrow(
+    expect(() => toCostEntry({ ...baseInstance, currency_code: 'EUR' })).toThrow(
       'Unsupported currency: EUR',
     );
   });
@@ -84,7 +84,7 @@ describe('mapInstanceUsageToCostEntry', () => {
       /* eslint-enable @typescript-eslint/no-unused-vars */
       ...rest
     } = baseInstance;
-    const entry = mapInstanceUsageToCostEntry(rest as UsageReportsV4.InstanceUsage);
+    const entry = toCostEntry(rest as UsageReportsV4.InstanceUsage);
 
     expect(entry.resourceInstanceName).toBeUndefined();
     expect(entry.resourceName).toBeUndefined();

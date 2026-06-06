@@ -2,7 +2,7 @@ import type UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.j
 
 import type { CostEntry } from '../../domain/index.js';
 
-export function mapInstanceUsageToCostEntry(instance: UsageReportsV4.InstanceUsage): CostEntry {
+export function toCostEntry(instance: UsageReportsV4.InstanceUsage): CostEntry {
   if (instance.currency_code !== 'USD') {
     throw new Error(
       `Unsupported currency: ${instance.currency_code} for instance ${instance.resource_instance_id}`,
