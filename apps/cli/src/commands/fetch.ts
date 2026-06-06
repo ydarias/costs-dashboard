@@ -2,7 +2,7 @@ import {
   createDataSource,
   IbmCloudClient,
   CostsRepository,
-  ManageCosts,
+  CostsService,
   type ResourceCostEntry,
 } from '@costs/billing';
 
@@ -46,14 +46,14 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
 
   const fetcher = new IbmCloudClient();
   const store = new CostsRepository(dataSource);
-  const manageCosts = new ManageCosts(fetcher, store);
+  const costsService = new CostsService(fetcher, store);
 
   const pairs = config.accounts.flatMap(({ id: accountId, apiKey }) =>
     months.map((month) => ({ accountId, month, apiKey })),
   );
 
   const results = await Promise.allSettled(
-    pairs.map(({ accountId, month, apiKey }) => manageCosts.fetchCosts({ accountId, month, apiKey })),
+    pairs.map(({ accountId, month, apiKey }) => costsService.fetchCosts({ accountId, month, apiKey })),
   );
 
   const successEntries = results

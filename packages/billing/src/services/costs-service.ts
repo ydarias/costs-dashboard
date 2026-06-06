@@ -1,7 +1,7 @@
-import type { FetchCostsOptions, ResourceCostEntry } from '../domain/index.js';
+import type {CostEntry, FetchCostsOptions, ResourceCostEntry} from '../domain/index.js';
 import type { ToFetchCosts, ToManageCosts, ToPersistCosts } from '../ports/index.js';
 
-export class ManageCosts implements ToManageCosts {
+export class CostsService implements ToManageCosts {
   constructor(
     private readonly fetcher: ToFetchCosts,
     private readonly store: ToPersistCosts,
@@ -13,7 +13,7 @@ export class ManageCosts implements ToManageCosts {
     return this.aggregate(entries);
   }
 
-  private aggregate(entries: Awaited<ReturnType<ToFetchCosts['fetch']>>): ResourceCostEntry[] {
+  private aggregate(entries: CostEntry[]): ResourceCostEntry[] {
     const groups = new Map<string, ResourceCostEntry>();
 
     for (const entry of entries) {
