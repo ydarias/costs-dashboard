@@ -1,3 +1,7 @@
-import type { CostEntry } from './cost-entry.js';
-
-export type ResourceCostEntry = CostEntry;
+export interface ResourceCostEntry {
+  accountId: string;
+  resourceName?: string;
+  cost: number;
+  currency: 'USD';
+  month: string;
+}

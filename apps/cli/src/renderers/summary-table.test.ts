@@ -1,4 +1,4 @@
-import type { CostEntry } from '@costs/billing';
+import type { ResourceCostEntry } from '@costs/billing';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 
 import { renderSummaryTable } from './summary-table.js';
@@ -7,12 +7,9 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-const entry = (overrides: Partial<CostEntry> = {}): CostEntry => ({
+const entry = (overrides: Partial<ResourceCostEntry> = {}): ResourceCostEntry => ({
   accountId: 'acc-1',
-  resourceInstanceId: 'crn:v1::cos-instance',
-  resourceId: 'cos',
   resourceName: 'Cloud Object Storage',
-  planId: 'standard',
   cost: 12.34,
   currency: 'USD',
   month: '2026-01',
