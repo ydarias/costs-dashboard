@@ -1,26 +1,35 @@
 {
-  "name": "@costs/api",
+  "name": "@costs/billing",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc",
-    "dev": "tsx watch src/index.ts",
-    "start": "node dist/index.js",
     "type-check": "tsc --noEmit",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "vitest run"
   },
   "dependencies": {
-    "express": "5.2.1"
+    "@ibm-cloud/platform-services": "^0.83.4",
+    "better-sqlite3": "^12.10.0",
+    "ibm-cloud-sdk-core": "^5.4.20",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^1.0.0"
   },
   "devDependencies": {
     "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "@costs/vitest-config": "*",
-    "@types/express": "5.0.6",
+    "@types/better-sqlite3": "^7.6.13",
     "@types/node": "25.9.1",
-    "tsx": "4.22.4",
     "typescript": "6.0.3",
     "vitest": "4.1.8"
   }
