@@ -152,6 +152,7 @@ vite.config.ts.timestamp-*
 .claude/
 spec.md
 spec-assets/
+tasks/
 
 # Application files
 costs-config.json

@@ -1,7 +1,7 @@
-import type { CostEntry } from '@costs/fetchers';
+import type { ResourceCostEntry } from '@costs/billing';
 import Table from 'cli-table3';
 
-export function renderSummaryTable(entries: CostEntry[], accountId: string): void {
+export function renderSummaryTable(entries: ResourceCostEntry[], accountId: string): void {
   const table = new Table({
     head: ['Resource Name', 'Month', 'Cost USD'],
     colAligns: ['left', 'left', 'right'],

@@ -14,8 +14,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@costs/fetchers": "*",
-    "@costs/repositories": "*",
+    "@costs/billing": "*",
     "cli-table3": "0.6.5",
     "commander": "15.0.0"
   },

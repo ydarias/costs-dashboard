@@ -12,8 +12,6 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@costs/fetchers": "*",
-    "@costs/repositories": "*",
     "express": "5.2.1"
   },
   "devDependencies": {

@@ -1,10 +1,11 @@
 import 'reflect-metadata';
-import type { CostEntry } from '../../domain/index.js';
 import type { DataSource } from 'typeorm';
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
-import { createDataSource } from './data-source-factory.js';
+import type { CostEntry } from '../../domain/index.js';
+
 import { CostsRepository } from './costs-repository.js';
+import { createDataSource } from './data-source-factory.js';
 
 const entry = (overrides: Partial<CostEntry> = {}): CostEntry => ({
   accountId: 'acc-1',

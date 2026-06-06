@@ -73,8 +73,17 @@ describe('mapInstanceUsageToCostEntry', () => {
   });
 
   it('handles optional fields being absent', () => {
-    const { resource_instance_name, resource_name, plan_name, region, resource_group_id, resource_group_name, ...rest } =
-      baseInstance;
+    const {
+      /* eslint-disable @typescript-eslint/no-unused-vars */
+      resource_instance_name,
+      resource_name,
+      plan_name,
+      region,
+      resource_group_id,
+      resource_group_name,
+      /* eslint-enable @typescript-eslint/no-unused-vars */
+      ...rest
+    } = baseInstance;
     const entry = mapInstanceUsageToCostEntry(rest as UsageReportsV4.InstanceUsage);
 
     expect(entry.resourceInstanceName).toBeUndefined();

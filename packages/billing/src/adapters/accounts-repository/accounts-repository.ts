@@ -1,4 +1,5 @@
 import type { DataSource, Repository } from 'typeorm';
+
 import type { Account } from '../../domain/index.js';
 import type { ToPersistAccounts } from '../../ports/index.js';
 

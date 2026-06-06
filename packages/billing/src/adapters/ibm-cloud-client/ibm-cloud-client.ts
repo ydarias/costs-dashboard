@@ -1,7 +1,8 @@
-import type { ToFetchCosts } from '../../ports/index.js';
-import type { CostEntry, FetchCostsOptions } from '../../domain/index.js';
 import UsageReportsV4 from '@ibm-cloud/platform-services/usage-reports/v4.js';
 import { IamAuthenticator } from 'ibm-cloud-sdk-core';
+
+import type { CostEntry, FetchCostsOptions } from '../../domain/index.js';
+import type { ToFetchCosts } from '../../ports/index.js';
 
 import { mapInstanceUsageToCostEntry } from './usage-response-to-cost-entry.js';
 

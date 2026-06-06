@@ -1,11 +1,16 @@
-import {CostsFetcher, type CostEntry} from '@costs/fetchers';
-import {createDataSource, SqliteCostRepository} from '@costs/repositories';
+import {
+  createDataSource,
+  IbmCloudClient,
+  CostsRepository,
+  ManageCosts,
+  type ResourceCostEntry,
+} from '@costs/billing';
 
-import {renderSummaryTable} from '../renderers/summary-table.js';
-import type {FetchOptions} from "../types/fetch-options";
-import {MONTH_PATTERN} from "../types/month-pattern";
-import {expandMonthRange} from '../utils/expand-month-range.js';
-import {readConfig} from '../utils/read-config.js';
+import { renderSummaryTable } from '../renderers/summary-table.js';
+import type { FetchOptions } from '../types/fetch-options.js';
+import { MONTH_PATTERN } from '../types/month-pattern.js';
+import { expandMonthRange } from '../utils/expand-month-range.js';
+import { readConfig } from '../utils/read-config.js';
 
 function parseMonths(options: FetchOptions) {
   if (!MONTH_PATTERN.test(options.from)) {
@@ -39,28 +44,25 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
   const dataSource = createDataSource(dbPath);
   await dataSource.initialize();
 
-  const fetcher = new CostsFetcher();
+  const fetcher = new IbmCloudClient();
+  const store = new CostsRepository(dataSource);
+  const manageCosts = new ManageCosts(fetcher, store);
 
   const pairs = config.accounts.flatMap(({ id: accountId, apiKey }) =>
     months.map((month) => ({ accountId, month, apiKey })),
   );
 
   const results = await Promise.allSettled(
-    pairs.map(({ accountId, month, apiKey }) => fetcher.fetch({ accountId, month, apiKey })),
+    pairs.map(({ accountId, month, apiKey }) => manageCosts.fetchCosts({ accountId, month, apiKey })),
   );
 
   const successEntries = results
-    .filter((r): r is PromiseFulfilledResult<CostEntry[]> => r.status === 'fulfilled')
+    .filter((r): r is PromiseFulfilledResult<ResourceCostEntry[]> => r.status === 'fulfilled')
     .flatMap((r) => r.value);
 
   const failures = results
     .map((r, i) => (r.status === 'rejected' ? { pair: pairs[i], reason: r.reason } : null))
     .filter((f): f is NonNullable<typeof f> => f !== null);
-
-  if (successEntries.length > 0) {
-    const repository = new SqliteCostRepository(dataSource);
-    await repository.save(successEntries);
-  }
 
   await dataSource.destroy();
 

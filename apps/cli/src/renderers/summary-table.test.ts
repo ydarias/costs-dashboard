@@ -1,4 +1,4 @@
-import type { CostEntry } from '@costs/fetchers';
+import type { CostEntry } from '@costs/billing';
 import { describe, it, expect, vi, afterEach } from 'vitest';
 
 import { renderSummaryTable } from './summary-table.js';

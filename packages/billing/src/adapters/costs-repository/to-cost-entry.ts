@@ -1,4 +1,5 @@
 import type { CostEntry } from '../../domain/index.js';
+
 import type { CostEntryEntity } from './cost-entry-entity.js';
 
 export function toCostEntry(entity: CostEntryEntity): CostEntry {
