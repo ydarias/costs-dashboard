@@ -4,7 +4,7 @@ import { IamAuthenticator } from 'ibm-cloud-sdk-core';
 import type { CostEntry, FetchCostsOptions } from '../../domain/index.js';
 import type { ToFetchCosts } from '../../ports/index.js';
 
-import { mapInstanceUsageToCostEntry } from './usage-response-to-cost-entry.js';
+import { toCostEntry } from './to-cost-entry';
 
 export class IbmCloudCostsFetcher implements ToFetchCosts {
   async fetch(options: FetchCostsOptions): Promise<CostEntry[]> {
@@ -21,6 +21,6 @@ export class IbmCloudCostsFetcher implements ToFetchCosts {
 
     const instances = await pager.getAll();
 
-    return instances.map(mapInstanceUsageToCostEntry);
+    return instances.map(toCostEntry);
   }
 }
