@@ -7,6 +7,8 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "vitest run"
   },
   "dependencies": {
@@ -15,6 +17,7 @@
     "express": "5.2.1"
   },
   "devDependencies": {
+    "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "@costs/vitest-config": "*",
     "@types/express": "5.0.6",

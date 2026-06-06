@@ -149,4 +149,10 @@ vite.config.ts.timestamp-*
 .idea/
 
 # Claude related
+.claude/
 spec.md
+spec-assets/
+
+# Application files
+costs-config.json
+costs.db

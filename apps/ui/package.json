@@ -7,6 +7,8 @@
     "dev": "vite",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "vitest run"
   },
   "dependencies": {
@@ -14,6 +16,7 @@
     "react-dom": "19.2.7"
   },
   "devDependencies": {
+    "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "@costs/vitest-config": "*",
     "@testing-library/react": "16.3.2",

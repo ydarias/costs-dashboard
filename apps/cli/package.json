@@ -9,14 +9,18 @@
     "build": "tsc",
     "dev": "tsx watch src/index.ts",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "vitest run"
   },
   "dependencies": {
     "@costs/fetchers": "*",
     "@costs/repositories": "*",
+    "cli-table3": "0.6.5",
     "commander": "15.0.0"
   },
   "devDependencies": {
+    "@costs/eslint-config": "*",
     "@costs/typescript-config": "*",
     "@costs/vitest-config": "*",
     "@types/node": "25.9.1",

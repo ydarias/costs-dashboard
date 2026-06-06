@@ -3,5 +3,5 @@ export default function App() {
     <main>
       <h1>Costs Dashboard</h1>
     </main>
-  )
+  );
 }

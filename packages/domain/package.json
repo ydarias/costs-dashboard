@@ -1,0 +1,24 @@
+{
+  "name": "@costs/domain",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@costs/eslint-config": "*",
+    "@costs/typescript-config": "*",
+    "typescript": "6.0.3"
+  }
+}
