@@ -9,7 +9,7 @@ export class CostsService implements ToManageCosts {
   ) {}
 
   async fetchCosts(options: FetchCostsOptions): Promise<ResourceCostEntry[]> {
-    await this.accountsStore.save({ id: options.accountId, name: options.accountName, apiKey: options.apiKey });
+    await this.accountsStore.save({ id: options.accountId, name: options.accountName });
     const entries = await this.fetcher.fetch(options);
     await this.store.save(entries);
     return this.aggregate(entries);

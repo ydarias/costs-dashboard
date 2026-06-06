@@ -7,7 +7,4 @@ export class AccountEntity {
 
   @Column()
   name!: string;
-
-  @Column()
-  apiKey!: string;
 }

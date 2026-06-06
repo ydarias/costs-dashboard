@@ -13,7 +13,7 @@ export class AccountsRepository implements ToPersistAccounts {
   }
 
   async save(account: Account): Promise<Account> {
-    await this.repo.save({ id: account.id, name: account.name, apiKey: account.apiKey });
+    await this.repo.save({ id: account.id, name: account.name });
     return account;
   }
 }

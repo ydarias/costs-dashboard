@@ -55,7 +55,7 @@ describe('ManageCosts', () => {
   it('saves the account before fetching costs', async () => {
     await useCase.fetchCosts(options);
 
-    expect(accountsStore.save).toHaveBeenCalledWith({ id: 'acc-1', name: 'Acc One', apiKey: 'key' });
+    expect(accountsStore.save).toHaveBeenCalledWith({ id: 'acc-1', name: 'Acc One' });
   });
 
   it('persists the raw fetched entries before aggregating', async () => {
