@@ -6,5 +6,5 @@ export class AccountEntity {
   id!: string;
 
   @Column()
-  apiKey!: string;
+  name!: string;
 }

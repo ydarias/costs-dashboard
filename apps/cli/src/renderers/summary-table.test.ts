@@ -17,16 +17,17 @@ const entry = (overrides: Partial<ResourceCostEntry> = {}): ResourceCostEntry =>
 });
 
 describe('renderSummaryTable', () => {
-  it('prints the account header', () => {
+  it('prints the account header with name and id', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
-    renderSummaryTable([entry()], 'acc-1');
+    renderSummaryTable([entry()], 'acc-1', 'My Account');
     const output = log.mock.calls.map((c) => c.join('')).join('\n');
-    expect(output).toContain('Account: acc-1');
+    expect(output).toContain('My Account');
+    expect(output).toContain('acc-1');
   });
 
   it('prints column headers', () => {
     const log = vi.spyOn(console, 'log').mockImplementation(() => {});
-    renderSummaryTable([entry()], 'acc-1');
+    renderSummaryTable([entry()], 'acc-1', 'My Account');
     const output = log.mock.calls.map((c) => c.join('')).join('\n');
     expect(output).toContain('Resource Name');
     expect(output).toContain('Month');
@@ -52,6 +53,7 @@ describe('renderSummaryTable', () => {
     renderSummaryTable(
       [entry({ accountId: 'acc-1', resourceName: 'COS' }), entry({ accountId: 'acc-2', resourceName: 'VPC' })],
       'acc-1',
+      'My Account',
     );
     const output = log.mock.calls.map((c) => c.join('')).join('\n');
     expect(output).toContain('COS');

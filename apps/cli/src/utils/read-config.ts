@@ -31,8 +31,8 @@ export function readConfig(configPath: string): CostsConfig {
   const config = parsed as CostsConfig;
 
   for (const account of config.accounts) {
-    if (!account.id || !account.apiKey) {
-      process.stderr.write(`Error: each account must have "id" and "apiKey" fields\n`);
+    if (!account.id || !account.name || !account.apiKey) {
+      process.stderr.write(`Error: each account must have "id", "name", and "apiKey" fields\n`);
       process.exit(1);
     }
   }
