@@ -1,5 +1,6 @@
 export interface AccountConfig {
   id: string
+  name: string
   apiKey: string
 }
 

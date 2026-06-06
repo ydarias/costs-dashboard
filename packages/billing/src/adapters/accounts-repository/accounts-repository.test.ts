@@ -21,15 +21,16 @@ afterEach(async () => {
 
 describe('AccountsRepository', () => {
   it('saves an account and returns it', async () => {
-    const saved = await repository.save({ id: 'acc-1', apiKey: 'key-1' });
+    const saved = await repository.save({ id: 'acc-1', name: 'My Account', apiKey: 'key-1' });
 
-    expect(saved).toEqual({ id: 'acc-1', apiKey: 'key-1' });
+    expect(saved).toEqual({ id: 'acc-1', name: 'My Account', apiKey: 'key-1' });
   });
 
-  it('upserts — second save with same id overwrites the apiKey', async () => {
-    await repository.save({ id: 'acc-1', apiKey: 'old-key' });
-    const updated = await repository.save({ id: 'acc-1', apiKey: 'new-key' });
+  it('upserts — second save with same id overwrites the name and apiKey', async () => {
+    await repository.save({ id: 'acc-1', name: 'Old Name', apiKey: 'old-key' });
+    const updated = await repository.save({ id: 'acc-1', name: 'New Name', apiKey: 'new-key' });
 
+    expect(updated.name).toBe('New Name');
     expect(updated.apiKey).toBe('new-key');
   });
 });

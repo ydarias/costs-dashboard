@@ -1,13 +1,15 @@
 import type {CostEntry, FetchCostsOptions, ResourceCostEntry} from '../domain/index.js';
-import type { ToFetchCosts, ToManageCosts, ToPersistCosts } from '../ports/index.js';
+import type { ToFetchCosts, ToManageCosts, ToPersistAccounts, ToPersistCosts } from '../ports/index.js';
 
 export class CostsService implements ToManageCosts {
   constructor(
     private readonly fetcher: ToFetchCosts,
     private readonly store: ToPersistCosts,
+    private readonly accountsStore: ToPersistAccounts,
   ) {}
 
   async fetchCosts(options: FetchCostsOptions): Promise<ResourceCostEntry[]> {
+    await this.accountsStore.save({ id: options.accountId, name: options.accountName, apiKey: options.apiKey });
     const entries = await this.fetcher.fetch(options);
     await this.store.save(entries);
     return this.aggregate(entries);

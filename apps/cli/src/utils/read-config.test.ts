@@ -19,13 +19,13 @@ async function importReadConfig() {
 describe('readConfig', () => {
   it('parses a valid config file', async () => {
     mockReadFileSync.mockReturnValue(
-      JSON.stringify({ accounts: [{ id: 'acc-1', apiKey: 'key-1' }] }),
+      JSON.stringify({ accounts: [{ id: 'acc-1', name: 'My Account', apiKey: 'key-1' }] }),
     );
     const readConfig = await importReadConfig();
 
     const config = readConfig('./costs-config.json');
 
-    expect(config.accounts).toEqual([{ id: 'acc-1', apiKey: 'key-1' }]);
+    expect(config.accounts).toEqual([{ id: 'acc-1', name: 'My Account', apiKey: 'key-1' }]);
   });
 
   it('calls process.exit(1) when the file is not found', async () => {
@@ -66,8 +66,20 @@ describe('readConfig', () => {
     expect(exit).toHaveBeenCalledWith(1);
   });
 
+  it('calls process.exit(1) when an account is missing name', async () => {
+    mockReadFileSync.mockReturnValue(JSON.stringify({ accounts: [{ id: 'acc-1', apiKey: 'key-1' }] }));
+    const exit = vi.spyOn(process, 'exit').mockImplementation((() => {
+      throw new Error('process.exit called');
+    }) as never);
+
+    const readConfig = await importReadConfig();
+
+    expect(() => readConfig('./bad.json')).toThrow('process.exit called');
+    expect(exit).toHaveBeenCalledWith(1);
+  });
+
   it('calls process.exit(1) when an account is missing apiKey', async () => {
-    mockReadFileSync.mockReturnValue(JSON.stringify({ accounts: [{ id: 'acc-1' }] }));
+    mockReadFileSync.mockReturnValue(JSON.stringify({ accounts: [{ id: 'acc-1', name: 'My Account' }] }));
     const exit = vi.spyOn(process, 'exit').mockImplementation((() => {
       throw new Error('process.exit called');
     }) as never);

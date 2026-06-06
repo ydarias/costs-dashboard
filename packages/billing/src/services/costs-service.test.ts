@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 import type { CostEntry, FetchCostsOptions } from '../domain/index.js';
-import type { ToFetchCosts } from '../ports/index.js';
+import type { ToFetchCosts, ToPersistAccounts } from '../ports/index.js';
 import type { ToPersistCosts } from '../ports/index.js';
 
 import { CostsService } from './costs-service';
@@ -27,17 +27,23 @@ const makeStore = (): ToPersistCosts => ({
   findAll: vi.fn().mockResolvedValue([]),
 });
 
-const options: FetchCostsOptions = { accountId: 'acc-1', month: '2026-01', apiKey: 'key' };
+const makeAccountsStore = (): ToPersistAccounts => ({
+  save: vi.fn().mockResolvedValue(undefined),
+});
+
+const options: FetchCostsOptions = { accountId: 'acc-1', accountName: 'Acc One', month: '2026-01', apiKey: 'key' };
 
 describe('ManageCosts', () => {
   let fetcher: ToFetchCosts;
   let store: ToPersistCosts;
+  let accountsStore: ToPersistAccounts;
   let useCase: CostsService;
 
   beforeEach(() => {
     fetcher = makeFetcher([makeEntry()]);
     store = makeStore();
-    useCase = new CostsService(fetcher, store);
+    accountsStore = makeAccountsStore();
+    useCase = new CostsService(fetcher, store, accountsStore);
   });
 
   it('fetches from the cloud with the given options', async () => {
@@ -46,9 +52,15 @@ describe('ManageCosts', () => {
     expect(fetcher.fetch).toHaveBeenCalledWith(options);
   });
 
+  it('saves the account before fetching costs', async () => {
+    await useCase.fetchCosts(options);
+
+    expect(accountsStore.save).toHaveBeenCalledWith({ id: 'acc-1', name: 'Acc One', apiKey: 'key' });
+  });
+
   it('persists the raw fetched entries before aggregating', async () => {
     const entries = [makeEntry(), makeEntry({ cost: 10.0 })];
-    useCase = new CostsService(makeFetcher(entries), store);
+    useCase = new CostsService(makeFetcher(entries), store, accountsStore);
 
     await useCase.fetchCosts(options);
 
@@ -61,7 +73,7 @@ describe('ManageCosts', () => {
       makeEntry({ resourceName: 'COS', cost: 3.0 }),
       makeEntry({ resourceName: 'VPC', cost: 7.0 }),
     ];
-    useCase = new CostsService(makeFetcher(entries), store);
+    useCase = new CostsService(makeFetcher(entries), store, accountsStore);
 
     const result = await useCase.fetchCosts(options);
 
@@ -77,7 +89,7 @@ describe('ManageCosts', () => {
       makeEntry({ resourceName: 'COS', month: '2026-01', cost: 5.0 }),
       makeEntry({ resourceName: 'COS', month: '2026-02', cost: 3.0 }),
     ];
-    useCase = new CostsService(makeFetcher(entries), store);
+    useCase = new CostsService(makeFetcher(entries), store, accountsStore);
 
     const result = await useCase.fetchCosts(options);
 
@@ -89,7 +101,7 @@ describe('ManageCosts', () => {
       makeEntry({ accountId: 'acc-1', resourceName: 'COS', cost: 5.0 }),
       makeEntry({ accountId: 'acc-2', resourceName: 'COS', cost: 3.0 }),
     ];
-    useCase = new CostsService(makeFetcher(entries), store);
+    useCase = new CostsService(makeFetcher(entries), store, accountsStore);
 
     const result = await useCase.fetchCosts(options);
 
@@ -97,7 +109,7 @@ describe('ManageCosts', () => {
   });
 
   it('returns an empty array when the fetcher returns nothing', async () => {
-    useCase = new CostsService(makeFetcher([]), store);
+    useCase = new CostsService(makeFetcher([]), store, accountsStore);
 
     const result = await useCase.fetchCosts(options);
 
@@ -106,7 +118,7 @@ describe('ManageCosts', () => {
 
   it('result entries only contain the ResourceCostEntry fields', async () => {
     const entries = [makeEntry({ resourceName: 'COS', cost: 5.0 })];
-    useCase = new CostsService(makeFetcher(entries), store);
+    useCase = new CostsService(makeFetcher(entries), store, accountsStore);
 
     const result = await useCase.fetchCosts(options);
 
