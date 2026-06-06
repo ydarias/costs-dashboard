@@ -74,7 +74,9 @@ export async function fetchCommand(options: FetchOptions): Promise<void> {
     await dataSource.destroy();
 
     for (const {id: accountId, name} of config.accounts) {
-        renderSummaryTable(successEntries, accountId, name);
+        for (const month of months) {
+            renderSummaryTable(successEntries, accountId, name, month);
+        }
     }
 
     if (failures.length > 0) {
